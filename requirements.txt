@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+pandas
+requests
+beautifulsoup4
+mastodon.py
+textblob
+elasticsearch==8.12.1
+openpyxl
+xlrd
