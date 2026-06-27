@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comp90024-api
+  labels:
+    app: comp90024-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: comp90024-api
+  template:
+    metadata:
+      labels:
+        app: comp90024-api
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry-secret
+      containers:
+        - name: comp90024-api
+          image: registry.gitlab.unimelb.edu.au:5005/chenxuanjin/comp90024_team_8/yaojinw-main-patch-25838:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ES_URL
+              value: "http://elasticsearch:9200"
+            - name: MASTODON_CLIENTCRED_FILE
+              value: "/app/mastodon_clientcred.secret"
+            - name: MASTODON_USERCRED_FILE
+              value: "/app/mastodon_usercred.secret"
+          volumeMounts:
+            - name: mastodon-credentials
+              mountPath: /app/mastodon_clientcred.secret
+              subPath: mastodon_clientcred.secret
+              readOnly: true
+            - name: mastodon-credentials
+              mountPath: /app/mastodon_usercred.secret
+              subPath: mastodon_usercred.secret
+              readOnly: true
+      volumes:
+        - name: mastodon-credentials
+          secret:
+            secretName: mastodon-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: comp90024-api
+  labels:
+    app: comp90024-api
+spec:
+  selector:
+    app: comp90024-api
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+      nodePort: 30080
