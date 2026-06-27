@@ -24,6 +24,16 @@ The system uses:
 
 ---
 
+Repository Source
+
+This repository was originally cloned from the University of Melbourne GitLab project:
+
+git@gitlab.unimelb.edu.au:chenxuanjin/COMP90024_team_8.git
+
+The current GitHub version is a cleaned and reorganised copy prepared for project portfolio presentation, with documentation updated to describe the system architecture, setup process, cloud deployment workflow, and implemented analytics pipeline.
+
+---
+
 ## System Architecture
 
 ```text
